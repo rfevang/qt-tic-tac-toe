@@ -16,7 +16,7 @@ public:
     Square getSquare(int x, int y) const;
 
 private:
-    std::vector<std::vector<Square>> board;
+    std::vector<std::vector<Square>> board_;
 };
 
 #endif // TICTACTOEBOARD_H

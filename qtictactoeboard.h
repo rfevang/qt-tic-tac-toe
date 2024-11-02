@@ -14,7 +14,7 @@ public:
 signals:
 
 private:
-    TicTacToeBoard* board;
+    TicTacToeBoard* board_;
 };
 
 #endif // QTICTACTOEBOARD_H

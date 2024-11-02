@@ -16,15 +16,18 @@ set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
-
+        tictactoeboard.h
+        tictactoeboard.cpp
+        qtictactoeboard.h
+        qtictactoeboard.cpp
+        qtictactoesquare.h
+        qtictactoesquare.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(qt-tic-tac-toe
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        tictactoeboard.h tictactoeboard.cpp
-        qtictactoeboard.h qtictactoeboard.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET qt-tic-tac-toe APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
