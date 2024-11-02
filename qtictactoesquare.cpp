@@ -6,6 +6,7 @@ QTicTacToeSquare::QTicTacToeSquare(TicTacToeBoard* board, int squareNo, QWidget 
     : QWidget{parent},
       board_(board),
       squareNo_(squareNo) {
+    assert(squareNo >= 0 && squareNo < 9);  // Square number must be on the board.
 }
 
 void QTicTacToeSquare::paintEvent(QPaintEvent* event) {
