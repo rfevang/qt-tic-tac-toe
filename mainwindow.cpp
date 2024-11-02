@@ -5,7 +5,7 @@
 #include <QGridLayout>
 #include <QPushButton>
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
 {
     board = std::make_unique<TicTacToeBoard>();

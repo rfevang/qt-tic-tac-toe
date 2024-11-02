@@ -4,7 +4,7 @@
 
 #include <QPushButton>
 
-QTicTacToeBoard::QTicTacToeBoard(TicTacToeBoard *board, QWidget *parent)
+QTicTacToeBoard::QTicTacToeBoard(TicTacToeBoard* board, QWidget* parent)
     : QWidget{parent},
       board(board) {
     QGridLayout* layout = new QGridLayout(this);

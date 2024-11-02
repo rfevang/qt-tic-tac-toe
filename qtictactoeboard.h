@@ -8,13 +8,13 @@ class QTicTacToeBoard : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QTicTacToeBoard(TicTacToeBoard *board, QWidget *parent = nullptr);
+    explicit QTicTacToeBoard(TicTacToeBoard* board, QWidget* parent = nullptr);
     //~QTicTacToeBoard();
 
 signals:
 
 private:
-    TicTacToeBoard *board;
+    TicTacToeBoard* board;
 };
 
 #endif // QTICTACTOEBOARD_H
