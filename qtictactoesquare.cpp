@@ -36,3 +36,8 @@ void QTicTacToeSquare::paintEvent(QPaintEvent* event) {
         painter.drawEllipse(QRect(margin, margin, 100 - 2 * margin, 100 - 2 * margin));
     }
 }
+
+void QTicTacToeSquare::mousePressEvent(QMouseEvent* event) {
+    board_->markSquare(squareNo_);
+    update();
+}
