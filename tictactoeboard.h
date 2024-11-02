@@ -13,10 +13,10 @@ public:
     };
     TicTacToeBoard();
 
-    Square getSquare(int x, int y) const;
+    Square getSquare(int squareNo) const;
 
 private:
-    std::vector<std::vector<Square>> board_;
+    std::vector<Square> board_;
 };
 
 #endif // TICTACTOEBOARD_H

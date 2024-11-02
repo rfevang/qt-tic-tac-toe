@@ -11,9 +11,20 @@ QTicTacToeSquare::QTicTacToeSquare(TicTacToeBoard* board, int squareNo, QWidget 
 
 void QTicTacToeSquare::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
-    QPen pen(Qt::red);
-    pen.setWidth(2);
-    painter.setPen(pen);
-    painter.drawLine(0, 0, this->width(), this->height());
-    painter.drawLine(0, this->height(), this->width(), 0);
+    painter.setRenderHint(QPainter::Antialiasing);
+    TicTacToeBoard::Square square = board_->getSquare(squareNo_);
+
+    if (square == TicTacToeBoard::X) {
+        QPen pen(Qt::red);
+        pen.setWidth(2);
+        painter.setPen(pen);
+        painter.drawLine(0, 0, this->width(), this->height());
+        painter.drawLine(0, this->height(), this->width(), 0);
+    }
+    if (square == TicTacToeBoard::O) {
+        QPen pen(Qt::green);
+        pen.setWidth(2);
+        painter.setPen(pen);
+        painter.drawEllipse(0, 0, this->width(), this->height());
+    }
 }
