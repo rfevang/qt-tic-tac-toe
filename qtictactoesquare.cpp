@@ -14,17 +14,25 @@ void QTicTacToeSquare::paintEvent(QPaintEvent* event) {
     painter.setRenderHint(QPainter::Antialiasing);
     TicTacToeBoard::Square square = board_->getSquare(squareNo_);
 
+    // Debugging border
+    painter.drawRect(contentsRect());
+
+    int side = std::min(width(), height());
+    // Pretend we're always 100x100 when deciding draw coordinates.
+    painter.scale(side / 100.0, side / 100.0);
+    int margin = 15;
+    painter.translate(margin / 2.0, margin / 2.0);
     if (square == TicTacToeBoard::X) {
         QPen pen(Qt::red);
         pen.setWidth(2);
         painter.setPen(pen);
-        painter.drawLine(0, 0, this->width(), this->height());
-        painter.drawLine(0, this->height(), this->width(), 0);
+        painter.drawLine(0, 0, 100 - margin, 100 - margin);
+        painter.drawLine(0, 100 - margin, 100 - margin, 0);
     }
     if (square == TicTacToeBoard::O) {
         QPen pen(Qt::green);
         pen.setWidth(2);
         painter.setPen(pen);
-        painter.drawEllipse(0, 0, this->width(), this->height());
+        painter.drawEllipse(QRect(0, 0, 100 - margin, 100 - margin));
     }
 }
