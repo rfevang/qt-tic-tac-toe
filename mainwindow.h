@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "tictactoeboard.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -18,6 +19,6 @@ public:
     ~MainWindow();
 
 private:
-
+    std::unique_ptr<TicTacToeBoard> board;
 };
 #endif // MAINWINDOW_H
