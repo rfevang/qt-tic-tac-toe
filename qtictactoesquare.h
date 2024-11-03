@@ -17,9 +17,6 @@ protected:
     void paintEvent(QPaintEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
 
-
-signals:
-
 private:
     // Represents which square on the board this widget represents.
     int squareNo_;

@@ -11,8 +11,6 @@ public:
     explicit QTicTacToeBoard(TicTacToeBoard* board, QWidget* parent = nullptr);
     //~QTicTacToeBoard();
 
-signals:
-
 private:
     TicTacToeBoard* board_;
 };
