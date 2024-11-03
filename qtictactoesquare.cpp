@@ -7,12 +7,15 @@ QTicTacToeSquare::QTicTacToeSquare(TicTacToeBoard* board, int squareNo, QWidget 
       board_(board),
       squareNo_(squareNo) {
     assert(squareNo >= 0 && squareNo < 9);  // Square number must be on the board.
+    connect(board, &TicTacToeBoard::squareChanged, this, [=](int changedSquareNo){
+        if (changedSquareNo == squareNo_) update();
+    });
 }
 
 void QTicTacToeSquare::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    TicTacToeBoard::Square square = board_->getSquare(squareNo_);
+    TicTacToeBoard::Player square = board_->getSquare(squareNo_);
 
     // Debugging border
     painter.drawRect(contentsRect());
@@ -39,5 +42,4 @@ void QTicTacToeSquare::paintEvent(QPaintEvent* event) {
 
 void QTicTacToeSquare::mousePressEvent(QMouseEvent* event) {
     board_->markSquare(squareNo_);
-    update();
 }
