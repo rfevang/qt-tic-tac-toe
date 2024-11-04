@@ -17,3 +17,7 @@ QTicTacToeBoard::QTicTacToeBoard(TicTacToeBoard* board, QWidget* parent)
 
     connect(restartButton, &QPushButton::clicked, board_, &TicTacToeBoard::restartGame);
 }
+
+QSize QTicTacToeBoard::sizeHint() const {
+    return QSize(400,800);
+}

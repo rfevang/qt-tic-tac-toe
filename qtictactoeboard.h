@@ -9,7 +9,8 @@ class QTicTacToeBoard : public QWidget
     Q_OBJECT
 public:
     explicit QTicTacToeBoard(TicTacToeBoard* board, QWidget* parent = nullptr);
-    //~QTicTacToeBoard();
+
+    QSize sizeHint() const override;
 
 private:
     TicTacToeBoard* board_;
