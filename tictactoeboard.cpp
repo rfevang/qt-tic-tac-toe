@@ -66,7 +66,7 @@ bool hasWon(int squares) {
 void TicTacToeBoard::checkIfGameIsOver_() {
     if (hasWon(xSquares)) declareGameOver_(X);
     else if (hasWon(oSquares)) declareGameOver_(O);
-    else if ((xSquares | oSquares) == (1 << 9) - 1) declareGameOver_(NONE);
+    else if ((xSquares | oSquares) == 0777) declareGameOver_(NONE);
 }
 
 void TicTacToeBoard::declareGameOver_(Player winner) {
