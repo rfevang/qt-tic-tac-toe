@@ -8,8 +8,8 @@
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
 {
-    board = std::make_unique<TicTacToeBoard>();
-    this->setCentralWidget(new QTicTacToeBoard(board.get()));
+    board_ = std::make_unique<TicTacToeBoard>();
+    this->setCentralWidget(new QTicTacToeBoard(board_.get()));
 }
 
 MainWindow::~MainWindow()

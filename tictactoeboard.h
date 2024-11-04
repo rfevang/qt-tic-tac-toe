@@ -15,7 +15,7 @@ public:
         X,
         O,
     };
-    TicTacToeBoard();
+    explicit TicTacToeBoard(QObject* parent = nullptr);
 
     // Retrieves the ownership status of the given square.
     Player getSquare(int squareNo) const;
@@ -23,6 +23,9 @@ public:
     // Marks the square for the player who's turn it is. If the square is not
     // empty, or there is no next player this does nothing.
     void markSquare(int squareNo);
+
+    // Returns which player is currently next to play.
+    Player nextToPlay() const;
 
 signals:
     // The ownership status of a square has changed.
@@ -37,8 +40,17 @@ signals:
 public slots:
     // Clears the board, setting up for a new game.
     void restartGame();
+    // Make a computer move for the player who's turn it is.
+    void makeComputerMove();
 
 private:
+    // Bitmask of player squares.
+    int xSquares, oSquares;
+    // Which player is next to play.
+    Player nextToPlay_;
+    // true if the game is over.
+    bool gameOver_;
+
     // Marks the given square as being owned by the given player.
     void setSquare_(int squareNo, Player value);
     // Updates nextToPlay_ to the specified player.
@@ -48,13 +60,8 @@ private:
     // Declares the game is over, emitting any necessary signals to notify
     // interested parties.
     void declareGameOver_(Player winner);
-
-    // Bitmask of player squares.
-    int xSquares, oSquares;
-    // Which player is next to play.
-    Player nextToPlay_;
-    // true if the game is over.
-    bool gameOver_;
+    // Makes a random available move, if possible.
+    void makeRandomMove_();
 };
 
 #endif // TICTACTOEBOARD_H

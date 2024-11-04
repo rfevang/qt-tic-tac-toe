@@ -19,6 +19,6 @@ public:
     ~MainWindow();
 
 private:
-    std::unique_ptr<TicTacToeBoard> board;
+    std::unique_ptr<TicTacToeBoard> board_;
 };
 #endif // MAINWINDOW_H

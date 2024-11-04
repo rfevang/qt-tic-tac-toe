@@ -4,6 +4,9 @@
 #include "tictactoeboard.h"
 #include <QWidget>
 
+class ComputerTicTacToeController;
+class QCheckBox;
+
 class QTicTacToeBoard : public QWidget
 {
     Q_OBJECT
@@ -14,6 +17,9 @@ public:
 
 private:
     TicTacToeBoard* board_;
+
+    // Hooks up signals and slots between a checkbox and controller.
+    void connectComputerCheckbox_(ComputerTicTacToeController* controller, QCheckBox* checkbox);
 };
 
 #endif // QTICTACTOEBOARD_H

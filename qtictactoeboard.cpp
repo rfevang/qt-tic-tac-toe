@@ -1,3 +1,4 @@
+#include "computertictactoecontroller.h"
 #include "qtictactoeboard.h"
 #include "qtictactoesquare.h"
 #include "tictactoeboard.h"
@@ -14,16 +15,33 @@ QTicTacToeBoard::QTicTacToeBoard(TicTacToeBoard* board, QWidget* parent)
         layout->addWidget(new QTicTacToeSquare(board, i), i/3, i%3);
     }
 
-    QCheckBox* computerPlayer1 = new QCheckBox("Computer controls player 1", this);
-    layout->addWidget(computerPlayer1, 3, 0, 1, 2);
-    QCheckBox* computerPlayer2 = new QCheckBox("Computer controls player 2", this);
-    layout->addWidget(computerPlayer2, 4, 0, 1, 2);
+    ComputerTicTacToeController* player1Controller = new ComputerTicTacToeController(board, TicTacToeBoard::X);
+    QCheckBox* player1CheckBox = new QCheckBox("Computer controls player 1", this);
+    layout->addWidget(player1CheckBox, 3, 0, 1, 2);
+    connectComputerCheckbox_(player1Controller, player1CheckBox);
+
+    ComputerTicTacToeController* player2Controller = new ComputerTicTacToeController(board, TicTacToeBoard::O);
+    QCheckBox* player2CheckBox = new QCheckBox("Computer controls player 2", this);
+    layout->addWidget(player2CheckBox, 4, 0, 1, 2);
+    connectComputerCheckbox_(player2Controller , player2CheckBox);
+
     QPushButton* restartButton = new QPushButton(tr("&Restart"), this);
     layout->addWidget(restartButton, 4, 2, 1, 1);
 
-
-
     connect(restartButton, &QPushButton::clicked, board_, &TicTacToeBoard::restartGame);
+}
+
+void QTicTacToeBoard::connectComputerCheckbox_(ComputerTicTacToeController* controller, QCheckBox* checkbox) {
+    connect(
+        controller,
+        &ComputerTicTacToeController::enabledChanged,
+        checkbox,
+        &QCheckBox::setChecked);
+    connect(
+        checkbox,
+        &QCheckBox::checkStateChanged,
+        controller,
+        &ComputerTicTacToeController::setEnabled);
 }
 
 QSize QTicTacToeBoard::sizeHint() const {

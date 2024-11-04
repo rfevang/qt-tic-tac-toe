@@ -1,6 +1,7 @@
 #include "tictactoeboard.h"
 
-TicTacToeBoard::TicTacToeBoard() :
+TicTacToeBoard::TicTacToeBoard(QObject* parent) :
+    QObject{parent},
     xSquares(0),
     oSquares(0),
     nextToPlay_(X) {}
@@ -22,12 +23,30 @@ void TicTacToeBoard::markSquare(int squareNo) {
     if (!gameOver_) setNextToPlay_(nextToPlay_ == X ? O : X);
 }
 
+TicTacToeBoard::Player TicTacToeBoard::nextToPlay() const {
+    return nextToPlay_;
+}
+
 void TicTacToeBoard::restartGame() {
     xSquares = 0;
     oSquares = 0;
     setNextToPlay_(X);
     gameOver_ = false;
     emit gameRestarted();
+}
+
+void TicTacToeBoard::makeComputerMove() {
+    makeRandomMove_();
+}
+
+void TicTacToeBoard::makeRandomMove_() {
+    int base = rand() % 9;
+    for(int i = 0; i < 9; i++) {
+        int squareNo = (base+i)%9;
+        if (isOwned(xSquares | oSquares, squareNo)) continue;
+        markSquare(squareNo);
+        return;
+    }
 }
 
 void TicTacToeBoard::setSquare_(int squareNo, Player value) {
