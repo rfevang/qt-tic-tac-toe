@@ -1,33 +1,38 @@
 #include "tictactoeboard.h"
 
 TicTacToeBoard::TicTacToeBoard() :
-    board_(9, NONE),
+    xSquares(0),
+    oSquares(0),
     nextToPlay_(X) {}
 
+bool isOwned(int squares, int squareNo) {
+    return ((1 << squareNo) & squares) != 0;
+}
 
 TicTacToeBoard::Player TicTacToeBoard::getSquare(int squareNo) const {
-    if (squareNo < 0 || squareNo >= 9) return NONE;
-    return board_[squareNo];
+    if (isOwned(xSquares, squareNo)) return X;
+    if (isOwned(oSquares, squareNo)) return O;
+    return NONE;
 }
 
 void TicTacToeBoard::markSquare(int squareNo) {
-    if (squareNo < 0 || squareNo >= 9 || board_[squareNo] != NONE) return;
+    // Ignore attempts to mark already owned squares.
+    if (nextToPlay_ == NONE || isOwned(xSquares | oSquares, squareNo)) return;
     setSquare_(squareNo, nextToPlay_);
     if (!gameOver_) setNextToPlay_(nextToPlay_ == X ? O : X);
 }
 
 void TicTacToeBoard::restartGame() {
-    for (int i = 0; i < 9; i++) {
-        setSquare_(i, NONE);
-    }
+    xSquares = 0;
+    oSquares = 0;
     setNextToPlay_(X);
     gameOver_ = false;
     emit gameRestarted();
 }
 
 void TicTacToeBoard::setSquare_(int squareNo, Player value) {
-    if (board_[squareNo] == value) return;
-    board_[squareNo] = value;
+    int& squares = (value == X ? xSquares : oSquares);
+    squares |= (1 << squareNo);
     emit squareChanged(squareNo, value);
     checkIfGameIsOver_();
 }
@@ -38,34 +43,30 @@ void TicTacToeBoard::setNextToPlay_(Player player) {
     emit nextToPlayChanged(player);
 }
 
+// Checks whether a player with the given owned squares has won the game.
+bool hasWon(int squares) {
+    // Use octal bit representations, as it corresponds really well with a 3x3 board.
+    static const int winningLines[] = {
+        0007,  // Row 1
+        0070,  // Row 2
+        0700,  // Row 3
+        0111,  // Column 1
+        0222,  // Column 2
+        0444,  // Column 3
+        0124,  // Reverse diagonal
+        0421,  // Normal diagonal
+    };
+
+    for (int i = 0; i < 8; i++) {
+        if ((squares & winningLines[i]) == winningLines[i]) return true;
+    }
+    return false;
+}
+
 void TicTacToeBoard::checkIfGameIsOver_() {
-    // Checks vertical lines, then horizontal, then the two diagonals.
-    // First squares to check for each combination.
-    static const int startSquares[] = {0, 1, 2, 0, 3, 6, 0, 2};
-    // Increment from the previous square to the next square to check for each
-    // combination.
-    static const int increment[] = {3, 3, 3, 1, 1, 1, 4, 2};
-
-    for(int i = 0; i < 8; i++) {
-        Player maybeWinner = board_[startSquares[i]];
-        if (maybeWinner == NONE) continue;
-        bool won = true;
-        for (int j = 1; j < 3; j++) {
-            if (board_[startSquares[i] + j * increment[i]] != maybeWinner) won = false;
-        }
-        if (won) {
-            declareGameOver_(maybeWinner);
-            return;
-        }
-    }
-
-    // Check for a filled board (draw).
-    for (int i = 0; i < 9; i++) {
-        // Still game to be played, even if it may be impossible to win.
-        if (board_[i] == NONE) return;
-    }
-    // All squares owned by a player, declare draw.
-    declareGameOver_(NONE);
+    if (hasWon(xSquares)) declareGameOver_(X);
+    else if (hasWon(oSquares)) declareGameOver_(O);
+    else if ((xSquares | oSquares) == (1 << 9) - 1) declareGameOver_(NONE);
 }
 
 void TicTacToeBoard::declareGameOver_(Player winner) {

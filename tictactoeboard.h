@@ -2,7 +2,6 @@
 #define TICTACTOEBOARD_H
 
 #include <QObject>
-#include <vector>
 
 class TicTacToeBoard : public QObject
 {
@@ -50,8 +49,8 @@ private:
     // interested parties.
     void declareGameOver_(Player winner);
 
-    // Current board state.
-    std::vector<Player> board_;
+    // Bitmask of player squares.
+    int xSquares, oSquares;
     // Which player is next to play.
     Player nextToPlay_;
     // true if the game is over.

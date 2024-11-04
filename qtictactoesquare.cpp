@@ -10,6 +10,7 @@ QTicTacToeSquare::QTicTacToeSquare(TicTacToeBoard* board, int squareNo, QWidget 
     connect(board, &TicTacToeBoard::squareChanged, this, [=](int changedSquareNo){
         if (changedSquareNo == squareNo_) update();
     });
+    connect(board, &TicTacToeBoard::gameRestarted, this, qOverload<>(&QWidget::update));
 }
 
 void QTicTacToeSquare::paintEvent(QPaintEvent* event) {
