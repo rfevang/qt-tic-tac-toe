@@ -29,8 +29,14 @@ void ComputerTicTacToeController::setEnabled(bool enabled) {
     maybeMove();
 }
 
+void ComputerTicTacToeController::setStrength(int strength) {
+    if (strength == strength_) return;
+    strength_ = strength;
+    emit strengthChanged(strength);
+}
+
 void ComputerTicTacToeController::maybeMove() {
     // Only make a move if we're enabled and it is our player's turn.
     if (!enabled_ || player_ != board_->nextToPlay()) return;
-    board_->makeComputerMove();
+    board_->makeComputerMove(100);
 }

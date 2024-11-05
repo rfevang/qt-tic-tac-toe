@@ -1,5 +1,25 @@
 #include "tictactoeboard.h"
 
+// Checks whether a player with the given owned squares has won the game.
+bool hasWon(int squares) {
+    // Use octal bit representations, as it corresponds really well with a 3x3 board.
+    static const int winningLines[] = {
+        0007,  // Row 1
+        0070,  // Row 2
+        0700,  // Row 3
+        0111,  // Column 1
+        0222,  // Column 2
+        0444,  // Column 3
+        0124,  // Reverse diagonal
+        0421,  // Normal diagonal
+    };
+
+    for (int i = 0; i < 8; i++) {
+        if ((squares & winningLines[i]) == winningLines[i]) return true;
+    }
+    return false;
+}
+
 TicTacToeBoard::TicTacToeBoard(QObject* parent) :
     QObject{parent},
     xSquares(0),
@@ -35,18 +55,59 @@ void TicTacToeBoard::restartGame() {
     emit gameRestarted();
 }
 
-void TicTacToeBoard::makeComputerMove() {
-    makeRandomMove_();
+void TicTacToeBoard::makeComputerMove(int strength) {
+    int move = -1;
+    if ((rand() % 101) > strength) {
+        move = selectRandomMove_();
+    } else {
+        int playerSquares = (nextToPlay_ == X ? xSquares : oSquares);
+        int opponentSquares = (nextToPlay_ == X ? oSquares : xSquares);
+        move = selectBestMove_(playerSquares, opponentSquares);
+    }
+    if (move != -1) markSquare(move);
 }
 
-void TicTacToeBoard::makeRandomMove_() {
+int TicTacToeBoard::selectRandomMove_() {
     int base = rand() % 9;
     for(int i = 0; i < 9; i++) {
         int squareNo = (base+i)%9;
         if (isOwned(xSquares | oSquares, squareNo)) continue;
-        markSquare(squareNo);
-        return;
+        return squareNo;
     }
+    return -1;
+}
+
+struct Move {
+    Move(int squareNo, int score) : squareNo(squareNo), score(score) {}
+    int squareNo;
+    int score;
+};
+
+// Scores a position, and returns an optimal move leading to that score.
+// Returned scores are 1 if the position is lost, 0 if it's a draw, and
+// -1 if it's won.
+Move scorePosition(int playerSquares, int opponentSquares) {
+    // It's lost if the opponent won on the last move.
+    if (hasWon(opponentSquares)) return Move(-1, 1);
+    // Filled board with no winner yet means draw.
+    if ((playerSquares | opponentSquares) == 0777) return Move(-1, 0);
+
+    std::vector<int> bestMoves;
+    int bestScore = -1;
+    for (int i = 0; i < 9; i++) {
+        if (isOwned(playerSquares | opponentSquares, i)) continue;
+        Move moveScore = scorePosition(opponentSquares, playerSquares | (1 << i));
+        if (moveScore.score > bestScore) {
+            bestScore = moveScore.score;
+            bestMoves.clear();
+        }
+        if (moveScore.score == bestScore) bestMoves.push_back(i);
+    }
+    return Move(bestMoves[rand() % bestMoves.size()], -bestScore);
+}
+
+int TicTacToeBoard::selectBestMove_(int playerSquares, int opponentSquares) {
+    return scorePosition(playerSquares, opponentSquares).squareNo;
 }
 
 void TicTacToeBoard::setSquare_(int squareNo, Player value) {
@@ -60,26 +121,6 @@ void TicTacToeBoard::setNextToPlay_(Player player) {
     if (nextToPlay_ == player) return;
     nextToPlay_ = player;
     emit nextToPlayChanged(player);
-}
-
-// Checks whether a player with the given owned squares has won the game.
-bool hasWon(int squares) {
-    // Use octal bit representations, as it corresponds really well with a 3x3 board.
-    static const int winningLines[] = {
-        0007,  // Row 1
-        0070,  // Row 2
-        0700,  // Row 3
-        0111,  // Column 1
-        0222,  // Column 2
-        0444,  // Column 3
-        0124,  // Reverse diagonal
-        0421,  // Normal diagonal
-    };
-
-    for (int i = 0; i < 8; i++) {
-        if ((squares & winningLines[i]) == winningLines[i]) return true;
-    }
-    return false;
 }
 
 void TicTacToeBoard::checkIfGameIsOver_() {

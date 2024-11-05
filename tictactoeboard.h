@@ -41,7 +41,9 @@ public slots:
     // Clears the board, setting up for a new game.
     void restartGame();
     // Make a computer move for the player who's turn it is.
-    void makeComputerMove();
+    // Strength should be a number between 0 and 100, where 0 is a computer
+    // making random moves, and 100 is a computer playing perfectly.
+    void makeComputerMove(int strength = 0);
 
 private:
     // Bitmask of player squares.
@@ -60,8 +62,10 @@ private:
     // Declares the game is over, emitting any necessary signals to notify
     // interested parties.
     void declareGameOver_(Player winner);
-    // Makes a random available move, if possible.
-    void makeRandomMove_();
+    // Selects a random available move. If there are no moves, -1 is returned.
+    int selectRandomMove_();
+    // Selects an optimal move. If there are no moves, -1 is returned.
+    int selectBestMove_(int playerSquares, int opponentSquares);
 };
 
 #endif // TICTACTOEBOARD_H
