@@ -13,11 +13,7 @@ class QTicTacToeBoard : public QWidget
 public:
     explicit QTicTacToeBoard(TicTacToeBoard* board, QWidget* parent = nullptr);
 
-    QSize sizeHint() const override;
-
 private:
-    TicTacToeBoard* board_;
-
     // Hooks up signals and slots between a checkbox and controller.
     void connectComputerCheckbox_(ComputerTicTacToeController* controller, QCheckBox* checkbox);
 };
