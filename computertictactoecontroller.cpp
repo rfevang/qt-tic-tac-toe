@@ -7,6 +7,8 @@ ComputerTicTacToeController::ComputerTicTacToeController(
         nextToPlay_(board->nextToPlay()),
         board_(board),
         enabled_(false) {
+    // Use QueuedConnection here to prevent making moves while the board state
+    // is being updated.
     connect(
         board,
         &TicTacToeBoard::nextToPlayChanged,
