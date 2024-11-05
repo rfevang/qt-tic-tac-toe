@@ -4,7 +4,6 @@ ComputerTicTacToeController::ComputerTicTacToeController(
             TicTacToeBoard* board, TicTacToeBoard::Player player) :
         QObject{board},
         player_(player),
-        nextToPlay_(board->nextToPlay()),
         board_(board),
         enabled_(false) {
     // Use QueuedConnection here to prevent making moves while the board state
@@ -13,7 +12,7 @@ ComputerTicTacToeController::ComputerTicTacToeController(
         board,
         &TicTacToeBoard::nextToPlayChanged,
         this,
-        &ComputerTicTacToeController::playersTurn,
+        &ComputerTicTacToeController::maybeMove,
         Qt::QueuedConnection);
     connect(
         board,
@@ -30,13 +29,8 @@ void ComputerTicTacToeController::setEnabled(bool enabled) {
     maybeMove();
 }
 
-void ComputerTicTacToeController::playersTurn(TicTacToeBoard::Player player) {
-    nextToPlay_ = player;
-    maybeMove();
-}
-
 void ComputerTicTacToeController::maybeMove() {
     // Only make a move if we're enabled and it is our player's turn.
-    if (!enabled_ || player_ != nextToPlay_) return;
+    if (!enabled_ || player_ != board_->nextToPlay()) return;
     board_->makeComputerMove();
 }

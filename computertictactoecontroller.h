@@ -21,18 +21,15 @@ public slots:
     // Sets enabled status to the given value.
     void setEnabled(bool enabled);
 
-private slots:
-    void playersTurn(TicTacToeBoard::Player player);
-
 private:
     // The player this controller is in charge of.
     TicTacToeBoard::Player player_;
-    // The player who's turn it is next on the board.
-    TicTacToeBoard::Player nextToPlay_;
     // The board the controller uses.
     TicTacToeBoard* board_;
     // Whether the player should play a computer move when it is it's turn.
     bool enabled_;
+
+private slots:
     // Makes a move on the board if the computer player is enabled and it is it's turn.
     void maybeMove();
 };
