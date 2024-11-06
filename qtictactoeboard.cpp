@@ -1,4 +1,5 @@
 #include "computertictactoecontroller.h"
+#include "playersettingsview.h"
 #include "qtictactoeboard.h"
 #include "tictactoeboard.h"
 #include "tictactoegrid.h"
@@ -15,16 +16,8 @@ QTicTacToeBoard::QTicTacToeBoard(TicTacToeBoard* board, QWidget* parent)
 
     QVBoxLayout* controlsLayout = new QVBoxLayout();
     mainLayout->addLayout(controlsLayout);
-
-    ComputerTicTacToeController* player1Controller = new ComputerTicTacToeController(board, TicTacToeBoard::X);
-    QCheckBox* player1CheckBox = new QCheckBox("Computer controls player 1", this);
-    controlsLayout->addWidget(player1CheckBox);
-    connectComputerCheckbox_(player1Controller, player1CheckBox);
-
-    ComputerTicTacToeController* player2Controller = new ComputerTicTacToeController(board, TicTacToeBoard::O);
-    QCheckBox* player2CheckBox = new QCheckBox("Computer controls player 2", this);
-    controlsLayout->addWidget(player2CheckBox);
-    connectComputerCheckbox_(player2Controller , player2CheckBox);
+    controlsLayout->addWidget(new PlayerSettingsView(board, TicTacToeBoard::X, this));
+    controlsLayout->addWidget(new PlayerSettingsView(board, TicTacToeBoard::O, this));
 
     QPushButton* restartButton = new QPushButton(tr("&Restart"), this);
     controlsLayout->addWidget(restartButton);

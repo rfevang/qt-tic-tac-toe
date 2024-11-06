@@ -13,6 +13,9 @@ class ComputerTicTacToeController : public QObject
 public:
     explicit ComputerTicTacToeController(TicTacToeBoard* board, TicTacToeBoard::Player player);
 
+    // Retrieves current computer playing strength.
+    int strength() const;
+
 signals:
     // Signals that the value of the enabled flag has changed.
     void enabledChanged(bool enabled);
