@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+// Represents a single board to play Tic-Tac-Toe on.
 class TicTacToeBoard : public QObject
 {
     Q_OBJECT

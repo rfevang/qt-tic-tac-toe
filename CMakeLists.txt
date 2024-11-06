@@ -18,10 +18,10 @@ set(PROJECT_SOURCES
         mainwindow.h
         tictactoeboard.h
         tictactoeboard.cpp
-        qtictactoeboard.h
-        qtictactoeboard.cpp
-        qtictactoesquare.h
-        qtictactoesquare.cpp
+        tictactoemainwidget.h
+        tictactoemainwidget.cpp
+        tictactoesquareview.h
+        tictactoesquareview.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

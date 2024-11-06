@@ -1,8 +1,8 @@
-#include "qtictactoesquare.h"
+#include "tictactoesquareview.h"
 
 #include <QPainter>
 
-QTicTacToeSquare::QTicTacToeSquare(TicTacToeBoard* board, int squareNo, QWidget *parent)
+TicTacToeSquareView::TicTacToeSquareView(TicTacToeBoard* board, int squareNo, QWidget *parent)
     : QWidget{parent},
       board_(board),
       squareNo_(squareNo) {
@@ -13,7 +13,7 @@ QTicTacToeSquare::QTicTacToeSquare(TicTacToeBoard* board, int squareNo, QWidget 
     connect(board, &TicTacToeBoard::gameRestarted, this, qOverload<>(&QWidget::update));
 }
 
-void QTicTacToeSquare::paintEvent(QPaintEvent* event) {
+void TicTacToeSquareView::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     TicTacToeBoard::Player square = board_->getSquare(squareNo_);
@@ -41,6 +41,6 @@ void QTicTacToeSquare::paintEvent(QPaintEvent* event) {
     }
 }
 
-void QTicTacToeSquare::mousePressEvent(QMouseEvent* event) {
+void TicTacToeSquareView::mousePressEvent(QMouseEvent* event) {
     board_->markSquare(squareNo_);
 }

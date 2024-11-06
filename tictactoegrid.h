@@ -5,6 +5,7 @@
 
 class TicTacToeBoard;
 
+// Visual representation of a TicTacToeBoard.
 class TicTacToeGrid : public QWidget
 {
     Q_OBJECT

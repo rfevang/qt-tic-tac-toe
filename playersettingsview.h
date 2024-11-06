@@ -5,11 +5,16 @@
 
 #include <QGroupBox>
 
+// Contains knobs and switches for settings related to a single Tic-Tac-Toe
+// player.
 class PlayerSettingsView : public QGroupBox
 {
     Q_OBJECT
 public:
-    explicit PlayerSettingsView(TicTacToeBoard* board, TicTacToeBoard::Player player, QWidget *parent = nullptr);
+    explicit PlayerSettingsView(
+        TicTacToeBoard* board,
+        TicTacToeBoard::Player player,
+        QWidget* parent = nullptr);
 
 signals:
 };

@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 
-#include "qtictactoeboard.h"
+#include "tictactoemainwidget.h"
 
 #include <QGridLayout>
 #include <QPushButton>
@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
 {
     board_ = std::make_unique<TicTacToeBoard>();
-    this->setCentralWidget(new QTicTacToeBoard(board_.get()));
+    this->setCentralWidget(new MainWidget(board_.get()));
 }
 
 MainWindow::~MainWindow()

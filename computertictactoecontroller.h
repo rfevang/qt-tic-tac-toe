@@ -11,7 +11,8 @@ class ComputerTicTacToeController : public QObject
 {
     Q_OBJECT
 public:
-    explicit ComputerTicTacToeController(TicTacToeBoard* board, TicTacToeBoard::Player player);
+    explicit ComputerTicTacToeController(TicTacToeBoard* board,
+                                         TicTacToeBoard::Player player);
 
     // Retrieves current computer playing strength.
     int strength() const;
@@ -39,7 +40,8 @@ private:
     int strength_;
 
 private slots:
-    // Makes a move on the board if the computer player is enabled and it is it's turn.
+    // Makes a move on the board if the computer player is enabled and it is
+    // it's turn.
     void maybeMove();
 };
 

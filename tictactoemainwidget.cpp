@@ -1,6 +1,6 @@
 #include "computertictactoecontroller.h"
 #include "playersettingsview.h"
-#include "qtictactoeboard.h"
+#include "tictactoemainwidget.h"
 #include "tictactoeboard.h"
 #include "tictactoegrid.h"
 #include <QGridLayout>
@@ -8,7 +8,7 @@
 #include <QCheckBox>
 #include <QPushButton>
 
-QTicTacToeBoard::QTicTacToeBoard(TicTacToeBoard* board, QWidget* parent)
+MainWidget::MainWidget(TicTacToeBoard* board, QWidget* parent)
     : QWidget{parent} {
     QHBoxLayout* mainLayout = new QHBoxLayout(this);
 
@@ -25,17 +25,3 @@ QTicTacToeBoard::QTicTacToeBoard(TicTacToeBoard* board, QWidget* parent)
 
     controlsLayout->addStretch();
 }
-
-void QTicTacToeBoard::connectComputerCheckbox_(ComputerTicTacToeController* controller, QCheckBox* checkbox) {
-    connect(
-        controller,
-        &ComputerTicTacToeController::enabledChanged,
-        checkbox,
-        &QCheckBox::setChecked);
-    connect(
-        checkbox,
-        &QCheckBox::checkStateChanged,
-        controller,
-        &ComputerTicTacToeController::setEnabled);
-}
-
